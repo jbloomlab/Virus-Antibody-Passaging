@@ -22,3 +22,7 @@ threads:
 
 #### -------------------------- Dirs ------------------------- ####
 
+fastq_dir: results/fastq
+trim_dir: results/trimmed
+qc_dir: results/qc
+

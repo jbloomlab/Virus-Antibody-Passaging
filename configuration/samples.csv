@@ -1,0 +1,4 @@
+Run,R1,R2
+Stock,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/1_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/1_R2_001.fastq.gz
+Control,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/2_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/2_R1_001.fastq.gz
+Antibody,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/4_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/4_R2_001.fastq.gz
