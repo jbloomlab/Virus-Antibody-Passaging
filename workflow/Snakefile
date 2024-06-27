@@ -10,16 +10,14 @@ from os.path import join
 
 #### -------------------- Configuration -------------------- ####
 
-configfile: "config/pipeline.yml"
+configfile: "configuration/pipeline.yml"
 
 #### ----------------------- Targets ----------------------- ####
-sample_df = pd.read_csv(config['samples'])
+# sample_df = pd.read_csv(config['samples'])
 
-# rule all:
-#     input: 
-#         join(config['variant_dir'], "variants.csv"),
-#         join(config['coverage_dir'], "merged.untrimmed.depth.tsv"),
-#         join(config['coverage_dir'], "merged.trimmed.depth.tsv")
+rule all:
+    input:
+        expand("results/reference/{gene}.fasta", gene=config['genes'])
 
 #### ------------------------ Rules ------------------------ ####
 
@@ -29,4 +27,16 @@ rule clean:
         rm -rf logs/
         rm -rf tmp/
         rm -f slurm*.out
+        """
+
+
+rule make_gene_reference:
+    output:
+        outpath = "results/reference/{gene}.fasta"
+    params:
+        fasta_url = config['ref'],
+        gff_url = config['gff']
+    shell:
+        """
+        python workflow/scripts/parse_gene.py {params.fasta_url} {params.gff_url} {wildcards.gene} {output.outpath}
         """

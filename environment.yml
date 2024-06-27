@@ -10,3 +10,4 @@ dependencies:
   - pandas=2.2
   - python=3.11
   - snakemake=8.14
+  - biopython

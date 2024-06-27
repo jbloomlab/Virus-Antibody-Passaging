@@ -5,13 +5,13 @@
 
 #### ------------------------- Samples ------------------------ ####
 
-samples: config/samples.csv
+samples: configuration/samples.csv
 
 #### ------------------------- Genomes ------------------------ ####
 
-ref: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.fna.gz
-gff: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.gff.gz
-# contig: NC_045512.2
+ref: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.fna.gz
+gff: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.gff.gz
+genes: ['F']
 
 #### -------------------------- Util -------------------------- ####
 
