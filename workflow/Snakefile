@@ -1,0 +1,32 @@
+""" 
+RSV-A Sequencing Analysis Pipeline.
+Author: Will Hannon 
+"""
+
+#### ----------------------- Imports ----------------------- ####
+
+import pandas as pd 
+from os.path import join
+
+#### -------------------- Configuration -------------------- ####
+
+configfile: "config/pipeline.yml"
+
+#### ----------------------- Targets ----------------------- ####
+sample_df = pd.read_csv(config['samples'])
+
+# rule all:
+#     input: 
+#         join(config['variant_dir'], "variants.csv"),
+#         join(config['coverage_dir'], "merged.untrimmed.depth.tsv"),
+#         join(config['coverage_dir'], "merged.trimmed.depth.tsv")
+
+#### ------------------------ Rules ------------------------ ####
+
+rule clean:
+    shell:
+        """
+        rm -rf logs/
+        rm -rf tmp/
+        rm -f slurm*.out
+        """

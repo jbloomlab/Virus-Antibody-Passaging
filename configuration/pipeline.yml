@@ -1,0 +1,24 @@
+#### ============== snakemake configuration file ============== ####
+
+# Configuration file for RSV-A deep sequencing analysis pipeline
+# Author: William Hannon
+
+#### ------------------------- Samples ------------------------ ####
+
+samples: config/samples.csv
+
+#### ------------------------- Genomes ------------------------ ####
+
+ref: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.fna.gz
+gff: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.gff.gz
+# contig: NC_045512.2
+
+#### -------------------------- Util -------------------------- ####
+
+#### ------------------------- Params ------------------------ ####
+
+threads:
+  max_cpu: 8
+
+#### -------------------------- Dirs ------------------------- ####
+
