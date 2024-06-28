@@ -1,0 +1,7 @@
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - ivar>=1.4
+  - samtools

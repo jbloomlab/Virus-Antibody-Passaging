@@ -9,9 +9,8 @@ samples: configuration/samples.csv
 
 #### ------------------------- Genomes ------------------------ ####
 
-ref: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.fna.gz
-gff: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.gff.gz
-genes: ['F']
+ref: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.fna.gz
+gff: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.gff.gz
 
 #### -------------------------- Util -------------------------- ####
 
@@ -22,7 +21,10 @@ threads:
 
 #### -------------------------- Dirs ------------------------- ####
 
+reference_dir: results/reference
 fastq_dir: results/fastq
 trim_dir: results/trimmed
+consensus_dir: results/consensus
+align_dir: results/aligned
+variants_dir: results/variants
 qc_dir: results/qc
-

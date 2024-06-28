@@ -17,8 +17,7 @@ sample_df = pd.read_csv(config['samples'])
 
 rule all:
     input:
-        expand(join(config['qc_dir'], "{sample}", "{sample}.fastp.html"), sample=sample_df['Run'].unique()),
-        expand("results/reference/{gene}.fasta", gene=config['genes'])
+        expand(join(config['variants_dir'], "{sample}.tsv"), sample=sample_df['Run'].unique()),
 
 #### ------------------------ Rules ------------------------ ####
 
@@ -31,19 +30,46 @@ rule clean:
         """
 
 
-rule parse_gene_from_reference:
-    output:
-        outpath = "results/reference/{gene}.fasta"
-    params:
-        fasta_url = config['ref'],
-        gff_url = config['gff']
+rule get_gff:
+    """ 
+    Download the gff format gene annotation.
+    """
+    output: join(config['reference_dir'], 'RSVA.gff')
+    params: ftp = lambda wildcards: config['gff']
+    shell: 
+        """
+        wget -O - {params.ftp} | gunzip -c > {output}
+        """
+    
+
+rule get_ref:
+    """ 
+    Download the fasta format reference genome.
+    """
+    output: join(config['reference_dir'], 'RSVA.fasta')
+    params: ftp = lambda wildcards: config['ref']
+    shell: 
+        """
+        wget -O - {params.ftp} | gunzip -c > {output}
+        """
+
+
+rule bwa_index:
+    """ 
+    Index the genome with BWA before alignment with BWA. 
+    """
+    input: join(config['reference_dir'], 'RSVA.fasta')
+    output: join(config['reference_dir'], "bwa", 'RSVA.fasta')
+    conda: 'envs/align-reads.yml'
+    params: algorithm="bwtsw"
     shell:
         """
-        python workflow/scripts/parse_gene.py {params.fasta_url} {params.gff_url} {wildcards.gene} {output.outpath}
+        cp {input} {output}
+        bwa index -a {params.algorithm} {output}
         """
 
 
-rule fetch_fastq:
+rule fetch_fastq_files:
     """ 
     Move the fastq files into the results directory and rename the files. 
     """
@@ -54,7 +80,7 @@ rule fetch_fastq:
     shell: "cp {params.R1_path} {output.R1} && cp {params.R2_path} {output.R2}"
 
 
-rule trim_adapters:
+rule trim_adapters_sequences_with_fastp:
     """
     Use fastp to trim the adapters from the reads.
 
@@ -80,4 +106,96 @@ rule trim_adapters:
             -O {output.R2} \
             --html {output.html} \
             --json {output.json} 
+        """
+        
+
+rule align_stock_with_bwa:
+    """ 
+    Perform short read alignment of the stock
+    viral reads with bwa-mem.
+    
+    Sort the aligned reads with samtools sort.
+    """
+    input: 
+        R1 = join(config['trim_dir'], "{sample}", "{sample}_R1.fastq.gz"),
+        R2 = join(config['trim_dir'], "{sample}", "{sample}_R2.fastq.gz"),
+        genome = join(config['reference_dir'], "bwa", 'RSVA.fasta')
+    output: bam = join(config['consensus_dir'], "{sample}.sorted.bam"),
+            bai = join(config['consensus_dir'], "{sample}.sorted.bam.bai")
+    threads: config['threads']['max_cpu']
+    conda: 'envs/align-reads.yml'
+    shell: 
+        """
+        bwa mem -t {threads} \
+            {input.genome} \
+            {input.R1} {input.R2} | \
+            samtools view -bh | \
+            samtools sort -o {output.bam} - 
+        samtools index {output.bam}
+        """
+
+
+rule create_stock_consensus_with_ivar:
+    input: bam = join(config['consensus_dir'], "{sample}.sorted.bam")
+    output: join(config['consensus_dir'], "{sample}.fa")
+    params: prefix = join(config['consensus_dir'], "{sample}")
+    conda: 'envs/call-variants.yml'
+    shell:
+        """
+        samtools mpileup -d 1000 -A -Q 0 {input.bam} | ivar consensus -p {params.prefix} -q 20 -t 0
+        """
+
+
+rule index_stock_consensus_with_bwa:
+    """ 
+    Index the stock consensus genome with BWA before alignment with BWA. 
+    """
+    input: join(config['consensus_dir'], "{sample}.fa")
+    output: join(config['reference_dir'], "bwa", "{sample}.fa")
+    conda: 'envs/align-reads.yml'
+    params: algorithm="bwtsw"
+    shell:
+        """
+        cp {input} {output}
+        bwa index -a {params.algorithm} {output}
+        """
+
+
+rule align_all_reads_with_bwa:
+    """ 
+    Perform short read alignment of the 
+    viral reads with bwa-mem.
+    
+    Sort the aligned reads with samtools sort.
+    """
+    input: 
+        R1 = join(config['trim_dir'], "{sample}", "{sample}_R1.fastq.gz"),
+        R2 = join(config['trim_dir'], "{sample}", "{sample}_R2.fastq.gz"),
+        genome = join(config['reference_dir'], "bwa", "Stock.fa")
+    output: bam = join(config['align_dir'], "{sample}.sorted.bam"),
+            bai = join(config['align_dir'], "{sample}.sorted.bam.bai")
+    threads: config['threads']['max_cpu']
+    conda: 'envs/align-reads.yml'
+    shell: 
+        """
+        bwa mem -t {threads} \
+            {input.genome} \
+            {input.R1} {input.R2} | \
+            samtools view -bh | \
+            samtools sort -o {output.bam} - 
+        samtools index {output.bam}
+        """
+
+
+rule call_variants_with_ivar:
+    input: 
+        bam = join(config['align_dir'], "{sample}.sorted.bam"),
+        genome = join(config['reference_dir'], "bwa", "Stock.fa"),
+        gff = join(config['reference_dir'], 'RSVA.gff')
+    output: join(config['variants_dir'], "{sample}.tsv")
+    params: prefix = join(config['variants_dir'], "{sample}")
+    conda: 'envs/call-variants.yml'
+    shell:
+        """
+        samtools mpileup -aa -A -d 1000 -B -Q 0 {input.bam} | ivar variants -p {params.prefix} -q 20 -t 0.03 -r {input.genome} -g {input.gff}
         """

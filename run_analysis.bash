@@ -14,10 +14,10 @@ mkdir -p tmp
 # Run the main analysis on slurm cluster
 snakemake \
     --use-conda \
-    --conda-prefix env \
+    --conda-prefix env/ \
+    # --cluster-config cluster.yml \
+    # --cluster "sbatch -p {cluster.partition} -c {cluster.cpus} -t {cluster.time} -J {cluster.name} -o ./tmp/slurm-%x.%j.out" \
     -j 999 \
-    --cluster-config config/cluster.yml \
-    --cluster "sbatch -p {cluster.partition} -c {cluster.cpus} -t {cluster.time} -J {cluster.name} -o ./tmp/slurm-%x.%j.out" \
     --latency-wait 60
 
 echo "Run of snakemake complete."
