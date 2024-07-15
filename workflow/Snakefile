@@ -197,5 +197,5 @@ rule call_variants_with_ivar:
     conda: 'envs/call-variants.yml'
     shell:
         """
-        samtools mpileup -aa -A -d 1000 -B -Q 0 {input.bam} | ivar variants -p {params.prefix} -q 20 -t 0.03 -r {input.genome} -g {input.gff}
+        samtools mpileup -aa -A -d 1000 -B -Q 0 {input.bam} | ivar variants -p {params.prefix} -q 20 -t 0.02 -r {input.genome} -g {input.gff}
         """
