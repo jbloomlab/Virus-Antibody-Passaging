@@ -13,6 +13,7 @@ from os.path import join
 configfile: "configuration/pipeline.yml"
 
 #### ----------------------- Targets ----------------------- ####
+
 sample_df = pd.read_csv(config['samples'])
 
 rule all:
