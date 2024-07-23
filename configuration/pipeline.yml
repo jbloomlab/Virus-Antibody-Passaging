@@ -19,6 +19,10 @@ gff: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_Vira
 threads:
   max_cpu: 8
 
+min_pval: 0.05
+min_depth: 200
+min_freq: 0.03
+
 #### -------------------------- Dirs ------------------------- ####
 
 reference_dir: results/reference
@@ -29,3 +33,4 @@ align_dir: results/aligned
 variants_dir: results/variants
 qc_dir: results/qc
 coverage_dir: results/coverage
+summary_dir: results/summary

@@ -18,8 +18,10 @@ sample_df = pd.read_csv(config['samples'])
 
 rule all:
     input:
-        expand(join(config['variants_dir'], "{sample}.tsv"), sample=sample_df['Run'].unique()),
-        join(config['coverage_dir'], "merged.depth")
+        join(config['summary_dir'], "all_variants.html"),
+        join(config['summary_dir'], "depth_plot.html"),
+        join(config['summary_dir'], "log_depth_plot.html")
+
 
 #### ------------------------ Rules ------------------------ ####
 
@@ -232,4 +234,26 @@ rule merge_depth:
 
         awk 'BEGIN{{print "REF\tPOS\tDP\tSample"}}1' {output.header} > {output.depth}
         """
+
+
+rule analyze_depth:
+    input: merged_depth = join(config['coverage_dir'], "merged.depth")
+    output: depth_plot = join(config['summary_dir'], "depth_plot.html"),
+            log_depth_plot = join(config['summary_dir'], "log_depth_plot.html")
+    conda: '../environment.yml'
+    log: notebook=join(config['summary_dir'], "analyze-depth.ipynb")
+    notebook: 'notebooks/analyze-depth.ipynb'
+
+
+rule analyze_variants:
+    input: variant_files = expand(join(config['variants_dir'], "{sample}.tsv"), sample=sample_df['Run'].unique())
+    output: all_variants = join(config['summary_dir'], "all_variants.html"),
+    params: 
+        samples=sample_df['Run'].unique(),
+        min_depth = config['min_depth'],
+        min_pval = config['min_pval'],
+        min_freq = config['min_freq']
+    conda: '../environment.yml'
+    log: notebook=join(config['summary_dir'], "analyze-variants.ipynb")
+    notebook: 'notebooks/analyze-variants.ipynb'
 
