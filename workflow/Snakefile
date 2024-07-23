@@ -19,6 +19,7 @@ sample_df = pd.read_csv(config['samples'])
 rule all:
     input:
         expand(join(config['variants_dir'], "{sample}.tsv"), sample=sample_df['Run'].unique()),
+        join(config['coverage_dir'], "merged.depth")
 
 #### ------------------------ Rules ------------------------ ####
 
@@ -200,3 +201,35 @@ rule call_variants_with_ivar:
         """
         samtools mpileup -aa -A -d 1000 -B -Q 0 {input.bam} | ivar variants -p {params.prefix} -q 20 -t 0.02 -r {input.genome} -g {input.gff}
         """
+
+
+rule samtools_depth:
+    """ 
+    Calculate the depth over each position filtering by the phred base score. 
+    """
+    input: bam = join(config['align_dir'], "{sample}.sorted.bam")
+    output: join(config['coverage_dir'], "{sample}.depth")
+    params: score=25
+    conda: 'envs/align-reads.yml'
+    shell: 
+        """
+        samtools depth -a -d 0 -q {params.score} {input.bam} > {output}
+
+        sed -i "s/$/\t{wildcards.sample}/" {output} 
+        """
+
+
+rule merge_depth:
+    """ 
+    Merge the samtools depth tables for all of the accessions into a single file.
+    """
+    input: expand(join(config['coverage_dir'], "{sample}.depth"), sample=sample_df['Run'].unique())
+    output: depth = join(config['coverage_dir'], "merged.depth"),
+            header = temp(join(config['coverage_dir'], "merged.depth.tmp"))
+    shell:
+        """
+        cat {input} > {output.header}
+
+        awk 'BEGIN{{print "REF\tPOS\tDP\tSample"}}1' {output.header} > {output.depth}
+        """
+

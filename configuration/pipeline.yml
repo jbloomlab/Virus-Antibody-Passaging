@@ -28,3 +28,4 @@ consensus_dir: results/consensus
 align_dir: results/aligned
 variants_dir: results/variants
 qc_dir: results/qc
+coverage_dir: results/coverage
