@@ -12,5 +12,5 @@ dependencies:
   - biopython
   - pip
   - pip:
-    - pandas>==2.2
+    - pandas>=2.2
     - altair

@@ -1,5 +1,6 @@
 channels:
+  - conda-forge
   - bioconda
 dependencies:
   - bwa
-  - samtools
+  - samtools=1.20
