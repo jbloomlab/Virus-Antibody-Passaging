@@ -9,8 +9,10 @@ samples: configuration/samples.csv
 
 #### ------------------------- Genomes ------------------------ ####
 
-ref: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.fna.gz
-gff: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.gff.gz
+# ref: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.fna.gz
+# gff: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/856/445/GCF_000856445.1_ViralProj15004/GCF_000856445.1_ViralProj15004_genomic.gff.gz
+ref: configuration/reference/KT992094_truncated.fasta
+gff: configuration/reference/KT992094_truncated.gff
 
 #### -------------------------- Util -------------------------- ####
 

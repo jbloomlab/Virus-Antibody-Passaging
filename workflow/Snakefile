@@ -30,7 +30,6 @@ rule clean:
         """
         rm -rf logs/
         rm -rf tmp/
-        rm -f slurm*.out
         """
 
 
@@ -39,10 +38,10 @@ rule get_gff:
     Download the gff format gene annotation.
     """
     output: join(config['reference_dir'], 'RSVA.gff')
-    params: ftp = lambda wildcards: config['gff']
+    params: file = lambda wildcards: config['gff']
     shell: 
         """
-        wget -O - {params.ftp} | gunzip -c > {output}
+        cp {params.file} {output}
         """
     
 
@@ -51,10 +50,10 @@ rule get_ref:
     Download the fasta format reference genome.
     """
     output: join(config['reference_dir'], 'RSVA.fasta')
-    params: ftp = lambda wildcards: config['ref']
+    params: file = lambda wildcards: config['ref']
     shell: 
         """
-        wget -O - {params.ftp} | gunzip -c > {output}
+        cp {params.file} {output}
         """
 
 
