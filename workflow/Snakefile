@@ -1,5 +1,5 @@
 """ 
-RSV-A Sequencing Analysis Pipeline.
+Antibody Passaging Analysis Pipeline for Viral Deep Sequencing.
 Author: Will Hannon 
 """
 
@@ -15,12 +15,13 @@ configfile: "configuration/pipeline.yml"
 #### ----------------------- Targets ----------------------- ####
 
 sample_df = pd.read_csv(config['samples'])
+viruses = sample_df['Virus'].unique()
 
 rule all:
     input:
-        join(config['summary_dir'], "all_variants.html"),
-        join(config['summary_dir'], "depth_plot.html"),
-        join(config['summary_dir'], "log_depth_plot.html")
+        expand(join(config['summary_dir'], '{virus}', "all_variants.html"), virus=viruses),
+        expand(join(config['summary_dir'], '{virus}', "depth_plot.html"), virus=viruses),
+        expand(join(config['summary_dir'], '{virus}', "log_depth_plot.html"), virus=viruses)
 
 
 #### ------------------------ Rules ------------------------ ####
@@ -37,8 +38,8 @@ rule get_gff:
     """ 
     Download the gff format gene annotation.
     """
-    output: join(config['reference_dir'], 'RSVA.gff')
-    params: file = lambda wildcards: config['gff']
+    output: join(config['reference_dir'], '{virus}', '{virus}.gff')
+    params: file = lambda wildcards: config[wildcards.virus]['gff']
     shell: 
         """
         cp {params.file} {output}
@@ -49,8 +50,8 @@ rule get_ref:
     """ 
     Download the fasta format reference genome.
     """
-    output: join(config['reference_dir'], 'RSVA.fasta')
-    params: file = lambda wildcards: config['ref']
+    output: join(config['reference_dir'], '{virus}', '{virus}.fasta')
+    params: file = lambda wildcards: config[wildcards.virus]['ref']
     shell: 
         """
         cp {params.file} {output}
@@ -61,8 +62,8 @@ rule bwa_index:
     """ 
     Index the genome with BWA before alignment with BWA. 
     """
-    input: join(config['reference_dir'], 'RSVA.fasta')
-    output: join(config['reference_dir'], "bwa", 'RSVA.fasta')
+    input: join(config['reference_dir'], '{virus}', '{virus}.fasta')
+    output: join(config['reference_dir'], '{virus}', "bwa", '{virus}.fasta')
     conda: 'envs/align-reads.yml'
     params: algorithm="bwtsw"
     shell:
@@ -76,10 +77,10 @@ rule fetch_fastq_files:
     """ 
     Move the fastq files into the results directory and rename the files. 
     """
-    output: R1 = join(config['fastq_dir'], "{sample}", "{sample}_R1.fastq.gz"),
-            R2 = join(config['fastq_dir'], "{sample}", "{sample}_R2.fastq.gz")
-    params: R1_path = lambda wildcards: sample_df.loc[(sample_df.Run == wildcards.sample)].R1.item(),
-            R2_path = lambda wildcards: sample_df.loc[(sample_df.Run == wildcards.sample)].R2.item()
+    output: R1 = join(config['fastq_dir'], '{virus}', "{sample}", "{sample}_R1.fastq.gz"),
+            R2 = join(config['fastq_dir'], '{virus}', "{sample}", "{sample}_R2.fastq.gz")
+    params: R1_path = lambda wildcards: sample_df.loc[(sample_df.Run == wildcards.sample) & (sample_df.Virus == wildcards.virus)].R1.item(),
+            R2_path = lambda wildcards: sample_df.loc[(sample_df.Run == wildcards.sample) & (sample_df.Virus == wildcards.virus)].R2.item()
     shell: "cp {params.R1_path} {output.R1} && cp {params.R2_path} {output.R2}"
 
 
@@ -92,13 +93,13 @@ rule trim_adapters_sequences_with_fastp:
     3. Reporting by HTML and JSON.
     """
     input:  
-        R1 = join(config['fastq_dir'], "{sample}", "{sample}_R1.fastq.gz"),
-        R2 = join(config['fastq_dir'], "{sample}", "{sample}_R2.fastq.gz")
+        R1 = join(config['fastq_dir'], "{virus}", "{sample}", "{sample}_R1.fastq.gz"),
+        R2 = join(config['fastq_dir'], "{virus}", "{sample}", "{sample}_R2.fastq.gz")
     output:
-        R1 = join(config['trim_dir'], "{sample}", "{sample}_R1.fastq.gz"),
-        R2 = join(config['trim_dir'], "{sample}", "{sample}_R2.fastq.gz"),
-        html = join(config['qc_dir'], "{sample}", "{sample}.fastp.html"),
-        json = join(config['qc_dir'], "{sample}", "{sample}.fastp.json")
+        R1 = join(config['trim_dir'], "{virus}", "{sample}", "{sample}_R1.fastq.gz"),
+        R2 = join(config['trim_dir'], "{virus}", "{sample}", "{sample}_R2.fastq.gz"),
+        html = join(config['qc_dir'], "{virus}", "{sample}", "{sample}.fastp.html"),
+        json = join(config['qc_dir'], "{virus}", "{sample}", "{sample}.fastp.json")
     conda: 'envs/process-reads.yml'
     shell:
         """ 
@@ -120,11 +121,11 @@ rule align_stock_with_bwa:
     Sort the aligned reads with samtools sort.
     """
     input: 
-        R1 = join(config['trim_dir'], "{sample}", "{sample}_R1.fastq.gz"),
-        R2 = join(config['trim_dir'], "{sample}", "{sample}_R2.fastq.gz"),
-        genome = join(config['reference_dir'], "bwa", 'RSVA.fasta')
-    output: bam = join(config['consensus_dir'], "{sample}.sorted.bam"),
-            bai = join(config['consensus_dir'], "{sample}.sorted.bam.bai")
+        R1 = join(config['trim_dir'], "{virus}", "{sample}", "{sample}_R1.fastq.gz"),
+        R2 = join(config['trim_dir'], "{virus}", "{sample}", "{sample}_R2.fastq.gz"),
+        genome = join(config['reference_dir'], "{virus}", "bwa", '{virus}.fasta')
+    output: bam = join(config['consensus_dir'], "{virus}", "{sample}.sorted.bam"),
+            bai = join(config['consensus_dir'], "{virus}", "{sample}.sorted.bam.bai")
     threads: config['threads']['max_cpu']
     conda: 'envs/align-reads.yml'
     shell: 
@@ -139,9 +140,9 @@ rule align_stock_with_bwa:
 
 
 rule create_stock_consensus_with_ivar:
-    input: bam = join(config['consensus_dir'], "{sample}.sorted.bam")
-    output: join(config['consensus_dir'], "{sample}.fa")
-    params: prefix = join(config['consensus_dir'], "{sample}")
+    input: bam = join(config['consensus_dir'], "{virus}", "{sample}.sorted.bam")
+    output: join(config['consensus_dir'], "{virus}", "{sample}.fa")
+    params: prefix = join(config['consensus_dir'], "{virus}", "{sample}")
     conda: 'envs/call-variants.yml'
     shell:
         """
@@ -153,8 +154,8 @@ rule index_stock_consensus_with_bwa:
     """ 
     Index the stock consensus genome with BWA before alignment with BWA. 
     """
-    input: join(config['consensus_dir'], "{sample}.fa")
-    output: join(config['reference_dir'], "bwa", "{sample}.fa")
+    input: join(config['consensus_dir'],"{virus}", "{sample}.fa")
+    output: join(config['reference_dir'],"{virus}", "bwa", "{sample}.fa")
     conda: 'envs/align-reads.yml'
     params: algorithm="bwtsw"
     shell:
@@ -172,11 +173,11 @@ rule align_all_reads_with_bwa:
     Sort the aligned reads with samtools sort.
     """
     input: 
-        R1 = join(config['trim_dir'], "{sample}", "{sample}_R1.fastq.gz"),
-        R2 = join(config['trim_dir'], "{sample}", "{sample}_R2.fastq.gz"),
-        genome = join(config['reference_dir'], "bwa", "Stock.fa")
-    output: bam = join(config['align_dir'], "{sample}.sorted.bam"),
-            bai = join(config['align_dir'], "{sample}.sorted.bam.bai")
+        R1 = join(config['trim_dir'], "{virus}", "{sample}", "{sample}_R1.fastq.gz"),
+        R2 = join(config['trim_dir'], "{virus}", "{sample}", "{sample}_R2.fastq.gz"),
+        genome = join(config['reference_dir'], "{virus}", "bwa", "Stock.fa")
+    output: bam = join(config['align_dir'], "{virus}", "{sample}.sorted.bam"),
+            bai = join(config['align_dir'], "{virus}", "{sample}.sorted.bam.bai")
     threads: config['threads']['max_cpu']
     conda: 'envs/align-reads.yml'
     shell: 
@@ -192,11 +193,11 @@ rule align_all_reads_with_bwa:
 
 rule call_variants_with_ivar:
     input: 
-        bam = join(config['align_dir'], "{sample}.sorted.bam"),
-        genome = join(config['reference_dir'], "bwa", "Stock.fa"),
-        gff = join(config['reference_dir'], 'RSVA.gff')
-    output: join(config['variants_dir'], "{sample}.tsv")
-    params: prefix = join(config['variants_dir'], "{sample}")
+        bam = join(config['align_dir'], "{virus}", "{sample}.sorted.bam"),
+        genome = join(config['reference_dir'], "{virus}", "bwa", "Stock.fa"),
+        gff = join(config['reference_dir'], "{virus}", '{virus}.gff')
+    output: join(config['variants_dir'], "{virus}", "{sample}.tsv")
+    params: prefix = join(config['variants_dir'], "{virus}", "{sample}")
     conda: 'envs/call-variants.yml'
     shell:
         """
@@ -208,8 +209,8 @@ rule samtools_depth:
     """ 
     Calculate the depth over each position filtering by the phred base score. 
     """
-    input: bam = join(config['align_dir'], "{sample}.sorted.bam")
-    output: join(config['coverage_dir'], "{sample}.depth")
+    input: bam = join(config['align_dir'], "{virus}", "{sample}.sorted.bam")
+    output: join(config['coverage_dir'], "{virus}", "samtools", "{sample}.depth")
     params: score=25
     conda: 'envs/align-reads.yml'
     shell: 
@@ -220,13 +221,19 @@ rule samtools_depth:
         """
 
 
-rule merge_depth:
+# Function to get depth files for each virus
+def get_depth_files(virus):
+    virus_samples = sample_df[sample_df['Virus'] == virus]['Run'].unique()
+    return expand(join(config['coverage_dir'], "{virus}", "samtools",  "{sample}.depth"),
+                  sample=virus_samples, virus=[virus])
+
+rule aggregate_depth:
     """ 
     Merge the samtools depth tables for all of the accessions into a single file.
     """
-    input: expand(join(config['coverage_dir'], "{sample}.depth"), sample=sample_df['Run'].unique())
-    output: depth = join(config['coverage_dir'], "merged.depth"),
-            header = temp(join(config['coverage_dir'], "merged.depth.tmp"))
+    input: lambda wildcards: get_depth_files(wildcards.virus)
+    output: depth = join(config['coverage_dir'], "{virus}", "merged.depth"),
+            header = temp(join(config['coverage_dir'], "{virus}", "merged.depth.tmp"))
     shell:
         """
         cat {input} > {output.header}
@@ -236,23 +243,31 @@ rule merge_depth:
 
 
 rule analyze_depth:
-    input: merged_depth = join(config['coverage_dir'], "merged.depth")
-    output: depth_plot = join(config['summary_dir'], "depth_plot.html"),
-            log_depth_plot = join(config['summary_dir'], "log_depth_plot.html")
+    input: merged_depth = join(config['coverage_dir'], "{virus}", "merged.depth")
+    output: depth_plot = join(config['summary_dir'], "{virus}", "depth_plot.html"),
+            log_depth_plot = join(config['summary_dir'], "{virus}", "log_depth_plot.html")
     conda: '../environment.yml'
-    log: notebook=join(config['summary_dir'], "analyze-depth.ipynb")
+    log: notebook=join(config['summary_dir'], "{virus}", "analyze-depth.ipynb")
     notebook: 'notebooks/analyze-depth.ipynb'
 
 
+# Function to get variant files for each virus
+def get_variant_files(virus):
+    virus_samples = sample_df[sample_df['Virus'] == virus]['Run'].unique()
+    return expand(join(config['variants_dir'], "{virus}", "{sample}.tsv"),
+                  sample=virus_samples, virus=[virus])
+
 rule analyze_variants:
-    input: variant_files = expand(join(config['variants_dir'], "{sample}.tsv"), sample=sample_df['Run'].unique())
-    output: all_variants = join(config['summary_dir'], "all_variants.html"),
+    input: 
+        variant_files = lambda wildcards: get_variant_files(wildcards.virus),
+        gff = join(config['reference_dir'], "{virus}", '{virus}.gff')
+    output: all_variants = join(config['summary_dir'], "{virus}", "all_variants.html"),
     params: 
-        samples=sample_df['Run'].unique(),
+        samples = lambda wildcards: sample_df[sample_df['Virus'] == wildcards.virus]['Run'].unique(),
         min_depth = config['min_depth'],
         min_pval = config['min_pval'],
         min_freq = config['min_freq']
     conda: '../environment.yml'
-    log: notebook=join(config['summary_dir'], "analyze-variants.ipynb")
+    log: notebook=join(config['summary_dir'], "{virus}", "analyze-variants.ipynb")
     notebook: 'notebooks/analyze-variants.ipynb'
 

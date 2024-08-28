@@ -1,4 +1,4 @@
-name: rsva-sequencing
+name: antibody-passaging
 
 channels:
   - conda-forge

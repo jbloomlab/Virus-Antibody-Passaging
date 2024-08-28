@@ -3,4 +3,7 @@
 _*
 *.out
 env/
-results/
+results/*
+!results/summary
+results/summary/*/*
+!results/summary/*/*.html

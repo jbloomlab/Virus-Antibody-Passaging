@@ -1,0 +1,39 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region AY297749.1 1 13335
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=162145
+AY297749.1	Genbank	region	1	13335	.	+	.	ID=AY297749.1:1..13335;Dbxref=taxon:162145;gb-acronym=HMPV;gbkey=Src;isolate=CAN97-83;mol_type=genomic RNA
+AY297749.1	Genbank	gene	42	1247	.	+	.	ID=gene-N;Name=N;gbkey=Gene;gene=N;gene_biotype=protein_coding
+AY297749.1	Genbank	mRNA	42	1247	.	+	.	ID=rna-N;Parent=gene-N;gbkey=mRNA;gene=N;product=nucleoprotein
+AY297749.1	Genbank	exon	42	1247	.	+	.	ID=exon-N-1;Parent=rna-N;gbkey=mRNA;gene=N;product=nucleoprotein
+AY297749.1	Genbank	CDS	55	1239	.	+	0	ID=cds-AAQ67692.1;Parent=rna-N;Dbxref=NCBI_GP:AAQ67692.1;Name=AAQ67692.1;gbkey=CDS;gene=N;product=nucleoprotein;protein_id=AAQ67692.1
+AY297749.1	Genbank	gene	1250	2158	.	+	.	ID=gene-P;Name=P;gbkey=Gene;gene=P;gene_biotype=protein_coding
+AY297749.1	Genbank	mRNA	1250	2158	.	+	.	ID=rna-P;Parent=gene-P;gbkey=mRNA;gene=P;product=phosphoprotein
+AY297749.1	Genbank	exon	1250	2158	.	+	.	ID=exon-P-1;Parent=rna-P;gbkey=mRNA;gene=P;product=phosphoprotein
+AY297749.1	Genbank	CDS	1263	2147	.	+	0	ID=cds-AAQ67693.1;Parent=rna-P;Dbxref=NCBI_GP:AAQ67693.1;Name=AAQ67693.1;gbkey=CDS;gene=P;product=phosphoprotein;protein_id=AAQ67693.1
+AY297749.1	Genbank	gene	2167	3019	.	+	.	ID=gene-M;Name=M;gbkey=Gene;gene=M;gene_biotype=protein_coding
+AY297749.1	Genbank	mRNA	2167	3019	.	+	.	ID=rna-M;Parent=gene-M;gbkey=mRNA;gene=M;product=matrix protein
+AY297749.1	Genbank	exon	2167	3019	.	+	.	ID=exon-M-1;Parent=rna-M;gbkey=mRNA;gene=M;product=matrix protein
+AY297749.1	Genbank	CDS	2180	2944	.	+	0	ID=cds-AAQ67694.1;Parent=rna-M;Dbxref=NCBI_GP:AAQ67694.1;Name=AAQ67694.1;gbkey=CDS;gene=M;product=matrix protein;protein_id=AAQ67694.1
+AY297749.1	Genbank	gene	3054	4697	.	+	.	ID=gene-F;Name=F;gbkey=Gene;gene=F;gene_biotype=protein_coding
+AY297749.1	Genbank	mRNA	3054	4697	.	+	.	ID=rna-F;Parent=gene-F;gbkey=mRNA;gene=F;product=fusion glycoprotein precursor
+AY297749.1	Genbank	exon	3054	4697	.	+	.	ID=exon-F-1;Parent=rna-F;gbkey=mRNA;gene=F;product=fusion glycoprotein precursor
+AY297749.1	Genbank	CDS	3067	4686	.	+	0	ID=cds-AAQ67695.1;Parent=rna-F;Dbxref=NCBI_GP:AAQ67695.1;Name=AAQ67695.1;gbkey=CDS;gene=F;product=fusion glycoprotein precursor;protein_id=AAQ67695.1
+AY297749.1	Genbank	gene	4711	5456	.	+	.	ID=gene-M2;Name=M2;gbkey=Gene;gene=M2;gene_biotype=protein_coding
+AY297749.1	Genbank	mRNA	4711	5456	.	+	.	ID=rna-M2;Parent=gene-M2;gbkey=mRNA;gene=M2;product=matrix proteins M2-1 and M2-2
+AY297749.1	Genbank	exon	4711	5456	.	+	.	ID=exon-M2-1;Parent=rna-M2;gbkey=mRNA;gene=M2;product=matrix proteins M2-1 and M2-2
+AY297749.1	Genbank	CDS	4724	5287	.	+	0	ID=cds-AAQ67696.1;Parent=rna-M2;Dbxref=NCBI_GP:AAQ67696.1;Name=AAQ67696.1;gbkey=CDS;gene=M2;product=matrix protein M2-1;protein_id=AAQ67696.1
+AY297749.1	Genbank	CDS	5235	5450	.	+	0	ID=cds-AAQ67697.1;Parent=rna-M2;Dbxref=NCBI_GP:AAQ67697.1;Name=AAQ67697.1;gbkey=CDS;gene=M2;product=matrix protein M2-2;protein_id=AAQ67697.1
+AY297749.1	Genbank	gene	5468	6094	.	+	.	ID=gene-SH;Name=SH;gbkey=Gene;gene=SH;gene_biotype=protein_coding
+AY297749.1	Genbank	mRNA	5468	6094	.	+	.	ID=rna-SH;Parent=gene-SH;gbkey=mRNA;gene=SH;product=small hydrophobic protein
+AY297749.1	Genbank	exon	5468	6094	.	+	.	ID=exon-SH-1;Parent=rna-SH;gbkey=mRNA;gene=SH;product=small hydrophobic protein
+AY297749.1	Genbank	CDS	5481	6020	.	+	0	ID=cds-AAQ67698.1;Parent=rna-SH;Dbxref=NCBI_GP:AAQ67698.1;Name=AAQ67698.1;gbkey=CDS;gene=SH;product=small hydrophobic protein;protein_id=AAQ67698.1
+AY297749.1	Genbank	gene	6219	6929	.	+	.	ID=gene-G;Name=G;gbkey=Gene;gene=G;gene_biotype=protein_coding
+AY297749.1	Genbank	mRNA	6219	6929	.	+	.	ID=rna-G;Parent=gene-G;gbkey=mRNA;gene=G;product=attachment glycoprotein G
+AY297749.1	Genbank	exon	6219	6929	.	+	.	ID=exon-G-1;Parent=rna-G;gbkey=mRNA;gene=G;product=attachment glycoprotein G
+AY297749.1	Genbank	CDS	6232	6891	.	+	0	ID=cds-AAQ67699.1;Parent=rna-G;Dbxref=NCBI_GP:AAQ67699.1;Name=AAQ67699.1;gbkey=CDS;gene=G;product=attachment glycoprotein G;protein_id=AAQ67699.1
+AY297749.1	Genbank	gene	7120	13239	.	+	.	ID=gene-L;Name=L;gbkey=Gene;gene=L;gene_biotype=protein_coding
+AY297749.1	Genbank	mRNA	7120	13239	.	+	.	ID=rna-L;Parent=gene-L;gbkey=mRNA;gene=L;product=RNA dependent RNA polymerase
+AY297749.1	Genbank	exon	7120	13239	.	+	.	ID=exon-L-1;Parent=rna-L;gbkey=mRNA;gene=L;product=RNA dependent RNA polymerase
+AY297749.1	Genbank	CDS	7133	13150	.	+	0	ID=cds-AAQ67700.1;Parent=rna-L;Dbxref=NCBI_GP:AAQ67700.1;Name=AAQ67700.1;gbkey=CDS;gene=L;product=RNA dependent RNA polymerase;protein_id=AAQ67700.1

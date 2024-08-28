@@ -1,6 +1,11 @@
-Run,R1,R2
-Stock,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/1_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/1_R2_001.fastq.gz
-Control,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/2_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/2_R1_001.fastq.gz
-Antibody-1,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/3_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/3_R2_001.fastq.gz
-Antibody-2,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/4_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/4_R2_001.fastq.gz
-Antibody-3,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/5_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/5_R2_001.fastq.gz
+Virus,Run,R1,R2
+RSV-A,Stock,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/1_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/1_R2_001.fastq.gz
+RSV-A,Control,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/2_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/2_R1_001.fastq.gz
+RSV-A,Antibody-1,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/3_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/3_R2_001.fastq.gz
+RSV-A,Antibody-2,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/4_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/4_R2_001.fastq.gz
+RSV-A,Antibody-3,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/5_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/00_fastq/5_R2_001.fastq.gz
+HMPV,Stock,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/Stock_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/Stock_R2_001.fastq.gz
+HMPV,Untreated,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/Untreated_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/Untreated_R2_001.fastq.gz
+HMPV,MxR,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/MxR_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/MxR_R2_001.fastq.gz
+HMPV,4F11-1,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/4F11-1_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/4F11-1_R2_001.fastq.gz
+HMPV,4F11-2,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/4F11-2_R1_001.fastq.gz,/fh/fast/bloom_j/SR/ngs/illumina/whannon/HMPV/30-1051519709/00_fastq/4F11-2_R2_001.fastq.gz
