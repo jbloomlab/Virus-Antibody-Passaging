@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH -c 32
+#SBATCH -c 8
 #SBATCH --time 1-0
 #SBATCH -J "{rule}"
 
