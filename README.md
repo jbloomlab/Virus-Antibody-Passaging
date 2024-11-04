@@ -66,6 +66,20 @@ snakemake --dry-run
 
 If you get an error at this point, there's likely a problem with the configuration. If you don't get an error, run the pipeline by submitting it to `slurm`.
 
+**Note**, if you're in a FH lab other than the Bloom lab, you'll need to update [profiles/config.yaml](profiles/config.yaml) with the name of your lab's `slurm` account:
+
+```yaml
+default-resources:
+  slurm_account: bloom_j <----- Change this to your lab's account
+  partition: campus-new
+  runtime: 10800
+  cpus_per_task: 1
+  mem_mb: 4000
+
+```
+
+And run the analysis like so:
+
 ```bash
 sbatch run_analysis.bash
 ```
