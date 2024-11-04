@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-#SBATCH -c 8
+#SBATCH -c 1
 #SBATCH --time 1-0
-#SBATCH -J "{rule}"
 
 # stop on errors
 set -e
@@ -14,6 +13,5 @@ snakemake \
     --software-deployment-method conda \
     --conda-frontend mamba \
     --conda-prefix ./env \
-    -j 999 \
-    --latency-wait 60 \
+    --workflow-profile profiles \
     --rerun-incomplete

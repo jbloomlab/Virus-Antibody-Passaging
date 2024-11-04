@@ -1,0 +1,27 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region AF013254.1 1 15225
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11250
+AF013254.1	Genbank	region	1	15225	.	+	.	ID=AF013254.1:1..15225;Dbxref=taxon:11250;gb-acronym=HRSV;gbkey=Src;mol_type=genomic RNA;note=wildtype;strain=B1
+AF013254.1	Genbank	gene	99	518	.	+	.	ID=gene-NS1;Name=NS1;gbkey=Gene;gene=NS1;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	99	518	.	+	0	ID=cds-AAB82429.1;Parent=gene-NS1;Dbxref=NCBI_GP:AAB82429.1;Name=AAB82429.1;gbkey=CDS;gene=NS1;product=non-structural protein 1;protein_id=AAB82429.1
+AF013254.1	Genbank	gene	626	1000	.	+	.	ID=gene-NS2;Name=NS2;gbkey=Gene;gene=NS2;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	626	1000	.	+	0	ID=cds-AAB82430.1;Parent=gene-NS2;Dbxref=NCBI_GP:AAB82430.1;Name=AAB82430.1;gbkey=CDS;gene=NS2;product=non-structural protein 2;protein_id=AAB82430.1
+AF013254.1	Genbank	gene	1140	2315	.	+	.	ID=gene-N;Name=N;gbkey=Gene;gene=N;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	1140	2315	.	+	0	ID=cds-AAB82431.1;Parent=gene-N;Dbxref=NCBI_GP:AAB82431.1;Name=AAB82431.1;gbkey=CDS;gene=N;product=nucleocapsid protein;protein_id=AAB82431.1
+AF013254.1	Genbank	gene	2348	3073	.	+	.	ID=gene-P;Name=P;gbkey=Gene;gene=P;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	2348	3073	.	+	0	ID=cds-AAB82432.1;Parent=gene-P;Dbxref=NCBI_GP:AAB82432.1;Name=AAB82432.1;gbkey=CDS;gene=P;product=phosphoprotein;protein_id=AAB82432.1
+AF013254.1	Genbank	gene	3263	4033	.	+	.	ID=gene-M;Name=M;gbkey=Gene;gene=M;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	3263	4033	.	+	0	ID=cds-AAB82433.1;Parent=gene-M;Dbxref=NCBI_GP:AAB82433.1;Name=AAB82433.1;gbkey=CDS;gene=M;product=matrix protein;protein_id=AAB82433.1
+AF013254.1	Genbank	gene	4303	4500	.	+	.	ID=gene-SH;Name=SH;gbkey=Gene;gene=SH;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	4303	4500	.	+	0	ID=cds-AAB82434.1;Parent=gene-SH;Dbxref=NCBI_GP:AAB82434.1;Name=AAB82434.1;gbkey=CDS;gene=SH;product=small hydrophobic protein;protein_id=AAB82434.1
+AF013254.1	Genbank	gene	4690	5589	.	+	.	ID=gene-G;Name=G;gbkey=Gene;gene=G;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	4690	5589	.	+	0	ID=cds-AAB82435.1;Parent=gene-G;Dbxref=NCBI_GP:AAB82435.1;Name=AAB82435.1;gbkey=CDS;gene=G;product=attachment glycoprotein;protein_id=AAB82435.1
+AF013254.1	Genbank	gene	5666	7390	.	+	.	ID=gene-F;Name=F;gbkey=Gene;gene=F;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	5666	7390	.	+	0	ID=cds-AAB82436.1;Parent=gene-F;Dbxref=NCBI_GP:AAB82436.1;Name=AAB82436.1;gbkey=CDS;gene=F;product=fusion protein;protein_id=AAB82436.1
+AF013254.1	Genbank	gene	7618	8443	.	+	.	ID=gene-M2;Name=M2;gbkey=Gene;gene=M2;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	7618	8205	.	+	0	ID=cds-AAB82437.1;Parent=gene-M2;Dbxref=NCBI_GP:AAB82437.1;Name=AAB82437.1;gbkey=CDS;gene=M2;product=matrix protein 2;protein_id=AAB82437.1
+AF013254.1	Genbank	CDS	8171	8443	.	+	0	ID=cds-AAB82438.1;Parent=gene-M2;Dbxref=NCBI_GP:AAB82438.1;Name=AAB82438.1;gbkey=CDS;gene=M2;product=matrix protein 2;protein_id=AAB82438.1
+AF013254.1	Genbank	gene	8509	15009	.	+	.	ID=gene-L;Name=L;gbkey=Gene;gene=L;gene_biotype=protein_coding
+AF013254.1	Genbank	CDS	8509	15009	.	+	0	ID=cds-AAB82439.1;Parent=gene-L;Dbxref=NCBI_GP:AAB82439.1;Name=AAB82439.1;gbkey=CDS;gene=L;product=polymerase;protein_id=AAB82439.1

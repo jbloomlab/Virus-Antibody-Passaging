@@ -16,8 +16,8 @@ HMPV:
   ref: configuration/reference/HMPV.fasta
   gff: configuration/reference/HMPV.gff
 RSV-B:  
-  ref: configuration/reference/RSVB_MG813995.1.fasta
-  gff: configuration/reference/RSVB_MG813995.1.gff
+  ref: configuration/reference/RSVB.fasta
+  gff: configuration/reference/RSVB.gff
 
 #### ------------------------- Params ------------------------ ####
 

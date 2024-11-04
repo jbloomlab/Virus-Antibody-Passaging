@@ -8,6 +8,7 @@ dependencies:
   - jupyterlab
   - python=3.11
   - snakemake=8.14
+  - snakemake-executor-plugin-slurm
   - biopython
   - pip
   - pip:
