@@ -34,6 +34,7 @@ reference_dir: results/reference
 fastq_dir: results/fastq
 trim_dir: results/trimmed
 consensus_dir: results/consensus
+consensus_no_indels_dir: results/consensus_no_indels
 align_dir: results/aligned
 variants_dir: results/variants
 qc_dir: results/qc

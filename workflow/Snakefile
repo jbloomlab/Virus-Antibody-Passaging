@@ -150,11 +150,24 @@ rule create_stock_consensus_with_ivar:
         """
 
 
+rule process_stock_consensus:
+    """
+    Remove indels from consensus stock sequence relative to reference sequence.
+    """
+    input: 
+        input_stock = join(config['consensus_dir'], "{virus}", "{sample}.fa"),
+        input_reference = join(config['reference_dir'], '{virus}', 'bwa', '{virus}.fasta')
+    output: 
+        output_stock = join(config['consensus_no_indels_dir'], "{virus}", "{sample}.fa"),
+    conda: '../environment.yml'
+    notebook: 'notebooks/process-stock-seq.ipynb'
+
+
 rule index_stock_consensus_with_bwa:
     """ 
     Index the stock consensus genome with BWA before alignment with BWA. 
     """
-    input: join(config['consensus_dir'],"{virus}", "{sample}.fa")
+    input: join(config['consensus_no_indels_dir'], "{virus}", "{sample}.fa"),
     output: join(config['reference_dir'],"{virus}", "bwa", "{sample}.fa")
     conda: 'envs/align-reads.yml'
     params: algorithm="bwtsw"
